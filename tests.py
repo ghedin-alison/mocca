@@ -18,6 +18,14 @@ class TestJoke(unittest.TestCase):
         mock_requests.get.return_value = mock_response
         self.assertEqual(get_joke(), 'test with mock')
 
+    @patch('main.requests')
+    def test_fail_get_joke(self, mock_requests):
+        mock_response = Mock(status_code = 403)
+        mock_response.json.return_value = {'value': {
+            'joke': 'test with mock'
+        }}
+        mock_requests.get.return_value = mock_response
+        self.assertEqual(get_joke(), 'No jokes')
 
 if __name__ == "__main__":
     unittest.main()
